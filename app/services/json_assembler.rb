@@ -1,4 +1,4 @@
-require 'JSON'
+require 'json'
 class JsonAssembler
   attr_reader :json
   def initialize(data, config)
