@@ -72,7 +72,7 @@ class TimeParser
   end
 
   def errors
-    (@parameters.public_methods & TIMES).length > 1 ? "At most one time parameter allowed." : nil
+    (@parameters.get_relevant_instance_methods & TIMES).length > 1 ? "At most one time parameter allowed." : nil
   end
 
   def to_s
@@ -81,7 +81,7 @@ class TimeParser
 
   private
     def obtain_time_unit
-      (@parameters.public_methods & TIMES)[0]
+      (@parameters.get_relevant_instance_methods & TIMES)[0]
     end
 
     def time_stamp(since)
@@ -134,6 +134,12 @@ class ParametersParser
       self.class.send(:define_method, key.to_s) do
         instance_variable_get("@#{key}")
       end
+    end
+
+    def get_relevant_instance_methods
+       @relevant_instance_methods ||= @parameters.instance_variables
+                                                 .map(&:to_s)
+                                                 .map {|e| e.sub('@','').to_sym}
     end
   end
 
