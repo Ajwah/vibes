@@ -2,7 +2,6 @@ class VibesController < ApplicationController
   include Timestamp
 
   def immediate
-    binding.pry
     q_parser = QueryParser.new(check_params)
     if q_parser.errors?
       render json: handle_jsonp({ errors: q_parser.errors, params: params })
