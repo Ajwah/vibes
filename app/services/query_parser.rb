@@ -136,11 +136,14 @@ class ParametersParser
       end
     end
 
-    def get_relevant_instance_methods
-       @relevant_instance_methods ||= @parameters.instance_variables
-                                                 .map(&:to_s)
-                                                 .map {|e| e.sub('@','').to_sym}
-    end
+    @relevant_instance_methods = self.instance_variables
+                                     .map(&:to_s)
+                                     .map {|e| e.sub('@','').to_sym}
+    binding.pry
+  end
+
+  def get_relevant_instance_methods
+    @relevant_instance_methods
   end
 
   def errors?
