@@ -74,7 +74,7 @@ class Statistics < ActiveRecord::Base
       :negative => results[:negative].values,
       :positive => results[:positive].values,
       :neutral => results[:neutral].values,
-      :tweets => tweets
+      :tweets => tweets.first(2000)
     }
   end
 
