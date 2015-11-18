@@ -2,7 +2,7 @@ class Statistics < ActiveRecord::Base
   self.abstract_class = true
 
   def self.sql(context)
-    raise 'constraint mehtod to be implemented'
+    raise 'constraint method to be implemented'
   end
 
   def self.unit(context)
@@ -17,18 +17,20 @@ class Statistics < ActiveRecord::Base
     @db = self.name.downcase + 's'
     sql = self.sql(config)
 
-    @min = ActiveRecord::Base.connection.execute(sql[:min]).to_a[0]["intervals"]
-    @max = ActiveRecord::Base.connection.execute(sql[:max]).to_a[0]["intervals"]
-    @records = ActiveRecord::Base.connection.execute(sql[:aggregate])
-    binding.pry
     unit = self.unit(config)
     step_unit = unit.to_sym
     @in_steps_of = (config.stats.quantity).send(step_unit)
 
+    @min = ActiveRecord::Base.connection.execute(sql[:min]).to_a[0]["intervals"]
+    @max = ActiveRecord::Base.connection.execute(sql[:max]).to_a[0]["intervals"]
+    @records = ActiveRecord::Base.connection.execute(sql[:aggregate])
+
     if @min && @max
+      min = config.time.time_format[:from].to_time.floor_to(@in_steps_of)
+      max = config.time.time_format[:until].to_time.floor_to(@in_steps_of)
       @time = {
-        :from => @min.to_time,
-        :until => @max.to_time
+        :from => min,
+        :until => max
       }
       assemble_results(config)
     else
@@ -47,7 +49,7 @@ class Statistics < ActiveRecord::Base
 
     range = (@time[:from].to_i..@time[:until].to_i)
     timings = range.step(@in_steps_of).map do |t|
-      Time.at(t).strftime('%Y-%m-%d %H:%M:%S')
+      Time.at(t).utc.iso8601.sub('T',' ').sub('Z','')
     end
 
     # The data assembly below ensures a consistent format as opposed to the other query:
