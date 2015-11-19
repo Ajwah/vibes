@@ -53,9 +53,9 @@ class BackgroundUrlManager
                 end
               end
             end
-      File.open(JOBCOMPLETEDFILE, 'a') do |file|
-        file.puts "#{Tweet.count}"
-      end
+    end
+    File.open(JOBCOMPLETEDFILE, 'a') do |file|
+      file.puts "#{Tweet.count}"
     end
   end
 
