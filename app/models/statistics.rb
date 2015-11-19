@@ -43,7 +43,7 @@ class Statistics < ActiveRecord::Base
       tweets = self.all
     else
       term = config.term.to_db_compatible_s
-      sql = "url LIKE '%#{term}%' and time <= '#{@max}' and time >= '#{@min}'"
+      sql = "url LIKE 'q=#{term} %' and time <= '#{@max}' and time >= '#{@min}'"
       tweets = self.where(sql)
     end
 
@@ -79,7 +79,7 @@ class Statistics < ActiveRecord::Base
   end
 
   def self.determine_db_api_distribution(query)
-    @ordered = self.where("url LIKE ? and url LIKE ?", "%#{query[:term]}%", "%#{query[:location]}%").order(:time)
+    @ordered = self.where("url LIKE ?", "q=#{query[:term]} %").order(:time)
     _from = @ordered.first ? @ordered.first.time.iso8601 : Time.now.utc.iso8601.to_s
     _until = @ordered.last ? @ordered.last.time.iso8601 : Time.now.utc.iso8601.to_s
     interval_db = {

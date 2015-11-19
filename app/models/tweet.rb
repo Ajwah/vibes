@@ -3,7 +3,7 @@ class Tweet < Statistics
     term = context.term.to_db_compatible_s
     _from = context.time.time_format[:from].to_time.strftime('%Y-%m-%d %H:%M:%S')
     _until = context.time.time_format[:until].to_time.strftime('%Y-%m-%d %H:%M:%S')
-    "WHERE url LIKE '%#{term}%' and time <= '#{_until}' and time >= '#{_from}'"
+    "WHERE url LIKE 'q=%#{term}% ' and time <= '#{_until}' and time >= '#{_from}'"
   end
 
   def self.sql(context)
@@ -35,7 +35,7 @@ class Tweet < Statistics
 
     min = context.time.time_format[:from].to_time.floor_to(in_steps_of)
     max = context.time.time_format[:until].to_time.floor_to(in_steps_of)
-    sql = "url LIKE '%#{term}%' and time <= '#{max}' and time >= '#{min}'"
+    sql = "url LIKE 'q=#{term} %' and time <= '#{max}' and time >= '#{min}'"
     db_total = Tweet.where(sql).count
   end
 end
