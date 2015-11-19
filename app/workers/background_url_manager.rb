@@ -21,7 +21,7 @@ class BackgroundUrlManager
     alchemy = AlchemyAPI.new
     lines = IO.readlines(JOBCOMPLETEDFILE) rescue nil
     from = lines && lines.last.to_i || 0
-    Tweet.all.each do |tweet|
+    Tweet.find_each do |tweet|
       tweet.text
            .split(/\s+/)
            .find_all { |u| u =~ /^https?:/ }
