@@ -20,6 +20,11 @@ class WatsonTwitterInsightsApi
     @query = query
   end
 
+  def count
+    response = self.class.get(COUNT + "#{@query}", @@auth)
+    WatsonTwitterInsightsParser.get_total(response)
+  end
+
   def get
     response = http_response_wrapped_in_exception_handling(MAXTRIES)
 

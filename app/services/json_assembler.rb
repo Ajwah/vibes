@@ -9,7 +9,7 @@ class JsonAssembler
       @config = config
       @json = {}
       generate_meta_data
-      assemble
+      assemble unless config.route == :gradual
     end
   end
 
@@ -21,9 +21,28 @@ class JsonAssembler
         @json[:meta_data] = {
           current_url: @config.query,
           next_url: nil,
-          total: nil, # Tweet.count_them @config
           next_from: nil
         }
+        add_total
+      end
+    end
+
+    def add_total
+
+      if (@config.route == :gradual)
+        api = WatsonTwitterInsightsApi.new(@config.query)
+        @json[:meta_data][:total] = api.count[:total]
+      elsif (@config.route == :cached)
+        db_total = Tweet.total_quantity(@config)
+        @json[:meta_data][:total] = db_total
+      else
+        # This is impossible case
+        @json[:error] = {
+          msg: 'Impossible case',
+          origin: self.class.to_s,
+          params: @config
+        }
+        @json[:meta_data][:total] = -100000
       end
     end
 

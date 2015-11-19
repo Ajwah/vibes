@@ -10,6 +10,12 @@ class WatsonTwitterInsightsParser
     parse
   end
 
+  def self.get_total(unrefined_data)
+    {
+      total: (unrefined_data["search"]["results"] rescue 0)
+    }
+  end
+
   def data
     @tweets
   end
