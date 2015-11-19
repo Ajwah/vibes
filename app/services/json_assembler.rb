@@ -54,7 +54,10 @@ class JsonAssembler
       else
         data = Tweet.statistics_improved @config
       end
-
+      total = [:negative, :positive, :neutral].map {|k| data[k].reduce(:+)}
+                                              .reduce(:+)
+                                              .to_i
+      @json[:meta_data][:total] = total if total > @json[:meta_data][:total]
       @json[:data] = data
       @json[:data][:map] = data[:tweets].select {|tweet| tweet[:geo]}.map do |tweet|
         {

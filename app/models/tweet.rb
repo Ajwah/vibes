@@ -33,8 +33,9 @@ class Tweet < Statistics
     step_unit = unit.to_sym
     in_steps_of = (context.stats.quantity).send(step_unit)
 
-    min = context.time.time_format[:from].to_time.floor_to(in_steps_of)
-    max = context.time.time_format[:until].to_time.floor_to(in_steps_of)
+    min = context.time.time_format[:from].to_time.floor_to(in_steps_of).strftime('%Y-%m-%d %H:%M:%S')
+    max = context.time.time_format[:until].to_time.floor_to(in_steps_of).strftime('%Y-%m-%d %H:%M:%S')
+    binding.pry
     sql = "url LIKE '%#{term}%' and time <= '#{max}' and time >= '#{min}'"
     db_total = Tweet.where(sql).count
   end
