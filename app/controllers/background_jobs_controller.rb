@@ -41,7 +41,7 @@ class BackgroundJobsController
         distribution[:api].each do |interval|
           @config.time.update_stamp(interval)
           url = @config.create_a_query
-          # Resque.enqueue(Background, url, @config)
+          Resque.enqueue(Background, url, @config)
         end
       end
     end
