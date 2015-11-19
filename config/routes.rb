@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'immediate/search' => 'vibes#immediate'
   get 'gradual/search' => 'vibes#gradual'
   get 'cached/search' => 'vibes#cached'
+  get 'alchemy' => 'vibes#test_alchemy_api'
 
   mount Resque::Server, :at => "/resque"
 

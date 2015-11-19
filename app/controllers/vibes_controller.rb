@@ -1,3 +1,4 @@
+require 'alchemy_api'
 class VibesController < ApplicationController
   include Timestamp
 
@@ -33,8 +34,15 @@ class VibesController < ApplicationController
     end
   end
 
+  def test_alchemy_api
+    # short = 'https://t.co/PYMKbovBO6'
+    # long = %x( curl -s -o /dev/null --head -w "%{url_effective}\n" -L "#{short}" )
+    # alchemy = AlchemyAPI.new
+    # res = alchemy.sentiment_targeted('url', long, 'Obama')
+    BackgroundJobsController.manage_urls_in_db
+    render json: res
+  end
   private
-
     def check_params
       params.permit(:q, :range,
                     :seconds, :minutes, :hours, :days, :weeks, :months, :years,

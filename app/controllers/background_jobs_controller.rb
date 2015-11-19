@@ -4,6 +4,10 @@ class BackgroundJobsController
     BackgroundJobsController.new(config)
   end
 
+  def self.manage_urls_in_db
+    Resque.enqueue(BackgroundUrlManager)
+  end
+
   private
 
     def initialize(config)
