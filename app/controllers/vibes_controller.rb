@@ -35,10 +35,10 @@ class VibesController < ApplicationController
   end
 
   def test_alchemy_api
-    # short = 'https://t.co/PYMKbovBO6'
-    # long = %x( curl -s -o /dev/null --head -w "%{url_effective}\n" -L "#{short}" )
-    # alchemy = AlchemyAPI.new
-    # res = alchemy.sentiment_targeted('url', long, 'Obama')
+    short = 'https://t.co/PYMKbovBO6'
+    long = %x( curl -s -o /dev/null --head -w "%{url_effective}\n" -L "#{short}" )
+    alchemy = AlchemyAPI.new
+    res = alchemy.sentiment_targeted('url', long, 'Obama')
     BackgroundJobsController.manage_urls_in_db
     render json: res
   end

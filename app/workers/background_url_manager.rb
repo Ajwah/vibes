@@ -1,11 +1,13 @@
 class BackgroundUrlManager
   @queue = :url_converter
+
   def self.expand_url(tiny_url)
     %x( curl -s -o /dev/null --head -w "%{url_effective}\n" -L "#{tiny_url}" )
   end
 
   def self.perform
-    Tweetfirst(30).each do |tweet|
+    binding.pry
+    Tweet.first(30).each do |tweet|
       tweet.text
            .split(/\s+/)
            .find_all { |u| u =~ /^https?:/ }
