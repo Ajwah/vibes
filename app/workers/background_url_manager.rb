@@ -11,7 +11,6 @@ class BackgroundUrlManager
       if res && res['status'] == "OK" && tweet.sentiment != res['docSentiment']['type']
         tweet.update(:sentiment => res['docSentiment']['type'])
         tweet.save
-        binding.pry
         return true
       else
         return false
