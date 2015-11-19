@@ -6,8 +6,8 @@ class WatsonTwitterInsightsApi
   MAXTRIES = 15
   TIMEOUTDURATION = 60
 
-  @@username = ENV['username']
-  @@password = ENV['password']
+  @@username = ENV['username3']
+  @@password = ENV['password3']
   @@auth = {
     basic_auth: {
       username: @@username,
@@ -62,7 +62,7 @@ class WatsonTwitterInsightsApi
           origin: self.to_s,
           class: error.class.to_s,
           msg: error.to_s,
-          cause: error && (error.respond_to? :cause) && error.cause.to_s || nil,
+          cause: error && (error.respond_to? :cause) && error.cause.to_s || "",
           number_of_tries: MAXTRIES,
           timeout_duration_in_sec: TIMEOUTDURATION
         },
