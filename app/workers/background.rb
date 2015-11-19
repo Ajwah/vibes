@@ -2,7 +2,7 @@ class Background
   FAILEDJOBSFILE = 'failed_jobs.log'
   PAUSEBETWEENAPICALLS = 4
 
-  @queue = :watson_twitter_api_queue
+  # @queue = :watson_twitter_api_queue
 
   def self.output_header(url, config)
     DebugHelper.output_data("")

@@ -80,6 +80,8 @@ test:
 #
 production:
   <<: *default
-  database: api_production
-  username: api
-  password: <%= ENV['API_DATABASE_PASSWORD'] %>
+  database: dd78e9g1glntt3
+  username: mbeulkenumahlt
+  password: Wv0ICU8CWw2Q1w_2b1VTmEZf5r
+  host: ec2-54-83-202-64.compute-1.amazonaws.com
+  port: 5432

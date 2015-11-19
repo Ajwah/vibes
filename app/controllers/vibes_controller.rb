@@ -18,7 +18,7 @@ class VibesController < ApplicationController
     if q_parser.errors?
       render json: handle_jsonp({ errors: q_parser.errors, params: params })
     else
-      BackgroundJobsController.run(q_parser)
+      # BackgroundJobsController.run(q_parser)
       assembler = JsonAssembler.new({}, q_parser)
       render json: assembler.json
    end
