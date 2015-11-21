@@ -1,13 +1,14 @@
 class BackgroundUrlManager
+  @queue = :url_converter_alchemy_analysis
   JOBCOMPLETEDFILE = 'completed_alchemy_jobs.log'
 
-  @queue = :url_converter_alchemy_analysis
 
   def self.expand_url(tiny_url)
     %x( curl -s -o /dev/null --head -w "%{url_effective}\n" -L "#{tiny_url}" ).sub("\n",'')
   end
 
   def self.process_response(tweet, res)
+      DebugHelper.output_data("#{res}")
       if res && res['status'] == "OK" && tweet.sentiment != res['docSentiment']['type']
         tweet.update(:sentiment => res['docSentiment']['type'])
         tweet.save
@@ -27,12 +28,12 @@ class BackgroundUrlManager
            .find_all { |u| u =~ /^https?:/ }
            .each do |tiny_url|
               actual_url = expand_url(tiny_url)
-              term = URI.decode(tweet.url.split(' posted:')[0]).strip
+              term = URI.decode(tweet.url.split(' posted:')[0].split('q=')[1]).strip
               res = alchemy.sentiment_targeted('url', actual_url, term) rescue nil
+              DebugHelper.output_data("keyphrase #{term}")
               unless process_response(tweet, res)
                 if tweet["statusInfo"] == "cannot-locate-keyphrase"
                   res = alchemy.sentiment('url', actual_url)
-                  res = process_response(tweet, res) rescue nil
                   if res
                     DebugHelper.output_data("#{tweet.text}\n-----------#{term}   |
                       \nConverted: #{tiny_url}    ==>   #{actual_url}
@@ -44,17 +45,9 @@ class BackgroundUrlManager
                       \nNo change in url: ***** #{tweet.old_sentiment}  ==> #{tweet.sentiment}
                     ")
                   end
-                else
-                  DebugHelper.output_data("#{tweet.text}\n-----------#{term}   |
-                    \nConverted: #{tiny_url}    ==>   #{actual_url}
-                    \nChanged: #{tweet.old_sentiment}  ==> #{tweet.sentiment}
-                  ")
                 end
               end
             end
-    end
-    File.open(JOBCOMPLETEDFILE, 'a') do |file|
-      file.puts "#{Tweet.count}"
     end
   end
 
