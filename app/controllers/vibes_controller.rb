@@ -34,10 +34,6 @@ class VibesController < ApplicationController
     end
   end
 
-  def test_alchemy_api
-    BackgroundJobsController.manage_urls_in_db
-    render json: 'Alchemy Update in progress'
-  end
   private
     def check_params
       params.permit(:q, :range,
