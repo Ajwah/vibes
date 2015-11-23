@@ -10,8 +10,8 @@ class WatsonTwitterInsightsApi
   MAXTRIES = 15
   TIMEOUTDURATION = 60
 
-  @@username = ENV['username3']
-  @@password = ENV['password3']
+  @@username = ENV['username']
+  @@password = ENV['password']
   @@auth = {
     basic_auth: {
       username: @@username,
