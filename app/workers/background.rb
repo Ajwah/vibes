@@ -1,3 +1,7 @@
+# This is a background job that gets triggered from the route: gradual/search
+# After seeing what is already present in the database, schedule workers
+# to fetch the remaining data from watson and store this directly into the
+# Tweet table.
 class Background
   FAILEDJOBSFILE = 'failed_jobs.log'
   PAUSEBETWEENAPICALLS = 4

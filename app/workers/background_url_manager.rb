@@ -1,3 +1,5 @@
+# This is to refine the sentiment analysis of Watson by following the URL
+# provided in tweets and parsing them through alchemyapi.
 class BackgroundUrlManager
   @queue = :url_converter_alchemy_analysis
   JOBCOMPLETEDFILE = 'completed_alchemy_jobs.log'
