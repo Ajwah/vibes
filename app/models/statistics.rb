@@ -1,3 +1,9 @@
+# I am not satisfied with this code. More refactoring needed.
+#
+# This code is mainly responsible for figuring out what is already in database
+# and what not so that only the relevant portion needs to be queried from Watson
+# It is also responsible for aggregation of data.
+#
 class Statistics < ActiveRecord::Base
   self.abstract_class = true
 

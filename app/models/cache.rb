@@ -1,3 +1,10 @@
+# This is a temporary cache table that stores the immediate results from Watson
+# (e.g. /immediate/search route.) These results are not incorporated into the
+# actual Tweet table to avoid dealing with the complexity of having gaps in the
+# table. The temporary storage to a database is solely to leverage the same aggregation
+# functionality as that of Tweet. In this way, I avoid having to maintain two
+# different algorithms, e.g. the database aggregation algorithm and the previously
+# in memory aggregation algorithm.
 class Cache < Statistics
   def self.constraint(context)
     ""

@@ -1,3 +1,7 @@
+# This class communicates with Watson. Gets a response and assigns the parsing
+# responsiblity thereof to a helper class: WatsonTwitterInsightsParser.
+# In case the server times out, then retry for a maximum of 15 times until
+# a response has been accomplished.
 class WatsonTwitterInsightsApi
   include HTTParty
 

@@ -1,3 +1,5 @@
+# This class effectively weaves the refined data together with appropriate
+# meta data etc.
 require 'json'
 class JsonAssembler
   attr_reader :json
@@ -56,9 +58,7 @@ class JsonAssembler
       end
       total = [:negative, :positive, :neutral].map {|e| e.to_i.reduce(:+) rescue 0}
                                               .reduce {|a,e| a + e rescue a}.to_i
-      # .map {|k| data[k].reduce(:+)}
-      #                                         .reduce(:+)
-      #                                         .to_i
+
       @json[:meta_data][:total] = total if total > @json[:meta_data][:total]
       @json[:data] = data
       @json[:data][:map] = data[:tweets].select {|tweet| tweet[:geo]}.map do |tweet|

@@ -1,3 +1,8 @@
+# Since Watson api only accepts iso8601 time ranges, I thus
+# created a module that is dynamically capable(check invoke below)
+# of converting months, weeks minutes and even seconds to the required
+# format.
+#
 module Timestamp
   TIMES = [:seconds, :minutes, :hours, :days, :weeks, :months, :years, :range]
 

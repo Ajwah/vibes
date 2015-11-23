@@ -1,3 +1,5 @@
+# This is a helper class to output both to console and log with one statement
+# only.
 module DebugHelper
 
   VERBOSE = {
